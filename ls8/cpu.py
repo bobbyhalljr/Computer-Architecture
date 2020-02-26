@@ -1,14 +1,12 @@
 """CPU functionality."""
 
 import sys
-# kfbd
 
 class CPU:
     """Main CPU class."""
 
     def __init__(self):
         """Construct a new CPU."""
-        return self
 
     def load(self):
         """Load a program into memory."""
