@@ -93,20 +93,49 @@ class CPU:
             XOR: self.op_xor,
         }
 
-    def load(self, filename):
+    def load(self, filename=None):
         """Load a file from disk into memory."""
-
+        
         address = 0
-        with open(filename) as fp:
-            for line in fp:
-                comment_split = line.split("#")
-                num = comment_split[0].strip()
-                if num == '':  # ignore blanks
-                    continue
-                val = int(num, 2)
 
-                self.ram[address] = val
-                address += 1
+        # For now, we've just hardcoded a program:
+        if filename:
+            with open('./examples/' + filename) as f:
+                address = 0
+                for line in f:
+                    line = line.split("#")[0].strip()
+                    if line == '':
+                        continue
+                    else:
+                        instruction = int(line, 2)  # by default this is base 10 so we need to change this to parse base 2 number
+                        self.ram[address] = instruction  
+                        address += 1         
+
+        else:
+            program = [
+                # From print8.ls8
+                0b10000010, # LDI R0,8
+                0b00000000,
+                0b00001000,
+                0b01000111, # PRN R0
+                0b00000000,
+                0b00000001, # HLT
+            ]
+
+            for address, instruction in enumerate(program):
+                self.ram[address] = instruction
+
+        # address = 0
+        # with open(filename) as fp:
+        #     for line in fp:
+        #         comment_split = line.split("#")
+        #         num = comment_split[0].strip()
+        #         if num == '':  # ignore blanks
+        #             continue
+        #         val = int(num, 2)
+
+        #         self.ram[address] = val
+        #         address += 1
 
     def ram_write(self, mdr, mar):
         self.ram[mar] = mdr
@@ -211,7 +240,7 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-
+        
         while not self.halted:
             # Interrupt code
 
@@ -341,3 +370,5 @@ class CPU:
 
     def op_hlt(self, operand_a, operand_b):
         self.halted = True
+        
+       
