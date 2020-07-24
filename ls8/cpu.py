@@ -125,18 +125,8 @@ class CPU:
             for address, instruction in enumerate(program):
                 self.ram[address] = instruction
 
-        # address = 0
-        # with open(filename) as fp:
-        #     for line in fp:
-        #         comment_split = line.split("#")
-        #         num = comment_split[0].strip()
-        #         if num == '':  # ignore blanks
-        #             continue
-        #         val = int(num, 2)
-
-        #         self.ram[address] = val
-        #         address += 1
-
+    
+    # Helper functions
     def ram_write(self, mdr, mar):
         self.ram[mar] = mdr
 
@@ -154,7 +144,6 @@ class CPU:
         return val
 
     def alu(self, op, reg_a, reg_b):
-
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
         elif op == "AND":
@@ -195,7 +184,7 @@ class CPU:
 
         diff = now - self.last_timer_int
 
-        if diff.seconds >= 1:  # OK, fire!
+        if diff.seconds >= 1:  # Fires now
             self.last_timer_int = now
             self.reg[IS] |= IS_TIMER
 
@@ -267,6 +256,9 @@ class CPU:
             # If the instruction didn't set the PC, just move to the next instruction
             if not self.inst_set_pc:
                 self.pc += inst_size
+
+
+
 
 
     def op_ldi(self, operand_a, operand_b):
