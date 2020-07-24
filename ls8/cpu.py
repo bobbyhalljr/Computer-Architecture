@@ -165,7 +165,7 @@ class CPU:
             elif self.reg[reg_a] > self.reg[reg_b]:
                 self.fl |= FL_GT
             else:
-                self.fl |= FL_EQ
+                self.fl |= FL_EQ 
         elif op == "OR":
             self.reg[reg_a] |= self.reg[reg_b]
         elif op == "SHL":
@@ -322,12 +322,14 @@ class CPU:
 
     def op_jmp(self, operand_a, operand_b):
         self.pc = self.reg[operand_a]
+        
                 
     def op_jeq(self, operand_a, operand_b):
         if self.fl & FL_EQ:
             self.pc = self.reg[operand_a]
         else:
             self.inst_set_pc = False
+            
 
     def op_jle(self, operand_a, operand_b):
         if self.fl & FL_LT or self.fl & FL_EQ:
@@ -346,9 +348,11 @@ class CPU:
             self.pc = self.reg[operand_a]
         else:
             self.inst_set_pc = False
+            
 
     def op_cmp(self, operand_a, operand_b):
         self.alu("CMP", operand_a, operand_b)
+        
 
     def op_iret(self, operand_a, operand_b):
         # restore work from stack
